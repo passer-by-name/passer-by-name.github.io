@@ -1,1 +1,45 @@
-# KMP算法与BF算法
+// BF算法
+int Index_BF (char * S , char * T ,int pos ){            //pos为在S中查询的起始位置
+  int i=pos,j=1;
+  while(i <= S.length && j <= T.length ){
+    if(S.ch[i]==T.ch[j]){
+      ++i;
+      ++j;
+    }else{
+      i=i-j+2;                                          //回到原始位置的下一位（加二是因为起始是1）
+      j=1;                                              //回到T的第一个位置
+    }
+  }
+  if(j>T.length){                                       //情况：当S结束了，那j是全部都匹配成功了还是没有？用这个条件判断
+    return i-T.length;                                  //成功
+}else {                     
+  return 0;                                             //失败
+}
+}
+
+// KMP算法
+int Index_KMP (char * S , char * T , int pos ){
+  int i=pos,j=1
+  while(S.ch[i]==T.ch[j]){
+    if(S.ch[i]==T.ch[j] && j==0 ){                      //j的情况是从头开始比较，让j变为1，同时i移动到下一个（挺妙的）
+      ++i;
+      ++j;
+    }else{
+      j=next[j];
+    }
+  }
+}
+
+int get_next(char * T , int nextval ){
+  int i=1,j=0;nextval[1]=0;
+  while(j<T.length){
+    if(T.ch[i]==T.ch[j] && j==0){
+      ++i;++j;
+      if(T.ch[i]!=T.ch[j]){
+        nextval[i]=j;
+      }else{
+        nextval[i]=nextval[j];
+      }
+  }else{
+    j=nextval[j];
+}
